@@ -1,0 +1,375 @@
+\documentclass{hw_template}
+\usepackage{xcolor}
+
+% STUDENTS: Please fill these out with your information
+\newcommand{\name}{Fill Here}
+\newcommand{\netid}{Fill Here}
+\newcommand{\collaborators}{Fill Here}
+% / STUDENT
+
+\newcommand{\hwnum}{1}
+\newcommand{\duedate}{September 23, 11:59pm ET}
+\renewcommand{\title}{Stable Matching, Greedy, Divide and Conquer}
+\newcommand{\io}{\textbf{Code input and output format.} }
+\newcommand{\submission}{\textbf{Submission.}}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+
+% \newtheorem{claim}{Claim}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problem 1: G-S algorithm
+
+\begin{problem}
+Your friend is wrapping up medical school
+and applying for residency programs, but is concerned and confused about how the matching
+system works. As the local expert on algorithms, your colleague wants your 
+help understanding how matchings work. 
+
+
+\begin{subproblem}
+  (\textit{2 points})
+%\newcommand{\bestrank}{{\tt br}}
+  Your friend tried to implement the textbook Gale-Shapley (G-S)
+  algorithm in Python. We provide this code in the homework materials in \texttt{problem\_1/p1\_a.py}. 
+  Using this implementation, your friend thinks they found a way to propose a
+  ranking that unfairly advantages them in getting the school of their choice.
+
+  There is a logical bug in the implementation. Provide a minimal test case
+  demonstrating the bug, i.e., an input with the smallest possible $n$ 
+  that, when run with the buggy implementation, outputs a non-stable matching. Write your test case input in \texttt{problem\_1/p1a\_test.txt}.  
+  
+\end{subproblem}
+
+\begin{subproblem}
+  (\textit{6 points})
+  Now, we turn to characterizing the performance of
+  this implementation. Fix the bug from part (a). Include the fixed code in \texttt{problem\_1/p1\_b.py}.
+
+  Provide a brief explanation of the performance you observe, and explain why the implementation does not achieve $\bigO(n^2)$ run time advertised for the G-S algorithm.
+\end{subproblem}
+
+\begin{solution}
+Please answer here.
+\end{solution}
+
+\begin{subproblem}
+\newcommand{\worstrank}{{\tt wr}}
+  (\textit{8 points})
+    Correct and improve the run time of the G-S implementation and turn it in for auto-grading. It must be correct (always outputting a stable matching) and should run in the expected $\bigO(n^2)$ time. Include your new implementation in \texttt{problem\_1/p1\_c.py}. 
+    
+    Describe the optimizations you implemented. Additionally, provide an empirical performance analysis of 1b) 1c) implementation in the same environment (same system and configuration) and plot them on the same graph. 
+\end{subproblem}
+
+\begin{solution}
+Please answer here.
+\end{solution}
+
+\begin{subproblem}
+\newcommand{\worstrank}{{\tt wr}}
+  (\textit{4 points})
+    We know that the correct implementation of the Gale-Shapley algorithm has a runtime of $\bigO(n^2)$.  Can you generate a test case for the worst-case scenario? For simplicity, let's assume n = 3. Write your test case input in \texttt{problem\_1/p1d\_test.txt}. And explain, what is the worst case in the write-up
+\end{subproblem}
+
+\begin{solution}
+Please answer here.
+\end{solution}
+
+\end{problem}
+
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problem 2
+
+\begin{problem}
+In the {\em interval covering problem},
+one is given a time interval $[0,M]$
+and a collection of closed subintervals
+$\mathcal{I} = \{[a_i,b_i] \mid i=1,2,\ldots,n\}$
+whose union is $[0,M]$. (Interpret intervals as jobs
+and, interpret $a_i$ and $b_i$ as the {\em start time}
+and {\em finish time} of job $[a_i,b_i]$.)
+The goal is to find a subcollection
+$\mathcal{J} \subseteq \mathcal{I}$, containing
+as few intervals as possible, such that
+the union of the intervals in $\mathcal{J}$
+is still equal to $[0,M]$.
+
+You can assume that the
+numbers $M,a_1,a_2,\ldots,a_n,b_1,b_2,\ldots,b_n$
+are all non-negative integers, and that
+$a_i < b_i$ for all $i$. You should assume
+that the list of intervals given in the
+problem input could be arbitrarily ordered;
+in other words, don't make an assumption that
+the input to the algorithm presents the intervals
+sorted according to any particular criterion.
+
+(\textit{20 points}) Below we have listed four greedy algorithms for
+this problem. At least one of them is correct,
+and at least one is incorrect. For {\em every} incorrect
+algorithm, provide an example of an input instance
+such that the algorithm outputs an incorrect answer
+in your write-up.
+(Either a set of intervals that fails to cover $[0,M]$,
+or a set that covers $[0,M]$ but has a greater number
+of intervals than necessary.) For {\em every} correct
+algorithm, write, ``The algorithm is correct.''
+For {\em at least one} of the correct algorithms,
+implement the algorithm to run in $O(n \log n)$; that is 
+$\Theta(n \log n)$ or faster.
+In the write-up, indicate which algorithm you implemented
+and briefly describe your implementation strategy. Include your implementation in \texttt{problem\_2/p2.py}.
+
+  \begin{subproblem}
+    \textbf{Select Earliest START Time:}
+  Initialize $\mathcal{J}=\emptyset$.
+  Until the intervals in $\mathcal{J}$ cover all of $[0,M]$,
+  repeat the following loop: find the minimum $c \in [0,M]$
+  such that $[c,M]$ is not yet covered by the intervals in $\mathcal{J}$,
+  or if there is no such $c$ then set $c=M$; of all the intervals
+  containing $c$ select one whose start time is as early as 
+  possible and insert it into $\mathcal{J}$.
+  \end{subproblem}
+
+\begin{solution}
+Please answer here.
+\end{solution}
+
+  \begin{subproblem}
+    \textbf{Select Interval Maximizing Overlap Coverage::}
+  Initialize $\mathcal{J}=\emptyset$.
+  Until the intervals in $\mathcal{J}$ cover all of $[0,M]$,
+  repeat the following loop: among all the intervals in
+  $\mathcal{I}$ that are not already contained in the union
+  of the intervals in $\mathcal{J}$, select one that is as
+  long as possible (i.e., that maximizes $b_i-a_i$) and
+  add it to $\mathcal{J}$.
+  \end{subproblem}
+
+\begin{solution}
+Please answer here.
+\end{solution}
+
+  \begin{subproblem}
+    \textbf{Delete Earliest Redundant Interval:}
+    Initialize $\mathcal{J}=\mathcal{I}$. While there
+  exists a redundant interval in $\mathcal{J}$ one
+  that is contained in the union of the other intervals
+  in $\mathcal{J}$ --- Identify the redundant interval that finishes first --- Remove this interval from $\mathcal{J}$.
+\end{subproblem}
+
+\begin{solution}
+Please answer here.
+\end{solution}
+
+\begin{subproblem}
+    \textbf{Delete Latest Redundant Interval:}
+  Initialize $\mathcal{J}=\mathcal{I}$. While there
+  exists a redundant interval in $\mathcal{J}$ --- one
+  that is contained in the union of the other intervals
+  in $\mathcal{J}$ --- find the redundant interval in
+  $\mathcal{J}$ with the latest finish time and remove it
+  from $\mathcal{J}$.
+\end{subproblem}
+
+\begin{solution}
+Please answer here.
+\end{solution}
+
+{\bf A note about tie-breaking:}
+When implementing any of the algorithms above one must
+choose a tie-breaking rule. In other words, when more than
+one interval meets the criterion defined in the algorithm
+specification (such as the latest finishing redundant
+interval) one must specify which of the eligible
+intervals is chosen. In the context of this problem,
+if you are asserting that an algorithm is correct,
+it should mean that you believe the algorithm gives
+the correct answer on every input instance
+{\em no matter how the tie-breaking rule is implemented;}
+that is what your proof of correctness should show.
+When you assert an algorithm is incorrect,
+for full credit you should supply an input instance
+that leads to an incorrect output {\em no matter how
+the tie-breaking rule is implemented.} However,
+significant partial credit will be awarded for
+providing an input instance that leads to an incorrect
+output {\em for some choice of tie-breaking rule},
+though not necessarily for every tie-breaking rule.
+
+
+\end{problem}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problem 3
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problem 3: JPEG Compression
+\begin{problem}
+As discussed in the lecture on JPEG compression, the final steps of the algorithm are lossless and are designed to efficiently encode data that has already been processed. After earlier stages like the Discrete Cosine Transform (DCT) and quantization, an image is represented by many 8x8 blocks of coefficients, which contain long runs of zeros. This problem asks you to implement the core of this final compression stage by combining Run-Length Encoding (RLE) with Huffman Coding.
+
+We provide a \texttt{visualizer.py} script in the \texttt{problem\_3} folder that uses your implementation to compress and reconstruct a real image. This visualizer can help you validate your implementation, but be aware that passing the visualizer does not guarantee that your code will pass all test cases on the autograder.
+
+\begin{subproblem}
+  (\textit{8 points})
+  First, you will implement Run-Length Encoding. This technique is highly effective at compressing the long sequences of zeros produced by the quantization stage. Your function will take a 1D list of 64 integers (representing a single processed block) and convert it into a compact list of RLE symbols. Implement the function \texttt{run\_length\_encode} in \texttt{problem\_3/p3.py}.
+\end{subproblem}
+
+\begin{subproblem}
+  (\textit{12 points})
+  Next, you will implement the Huffman coding algorithm to compress the stream of symbols generated by your RLE function. The ``alphabet'' for your Huffman algorithm will be the unique RLE symbols themselves (e.g., \texttt{(0, 52)}, \texttt{(2, 3)}, \texttt{('EOB',)}). Implement the function \texttt{huffman\_compress} in \texttt{problem\_3/p3.py}. Your function must calculate the frequency of each unique RLE symbol, build the optimal prefix code tree, generate the corresponding codes, and encode the full symbol stream into a bitstring.
+\end{subproblem}
+
+\io The functions you implement in \texttt{problem\_3/p3.py} are called by the provided \texttt{visualizer.py} script. Your \texttt{run\_length\_encode} function takes a list of 64 integers and returns a list of RLE symbols, where a symbol is either a tuple \texttt{(num\_zeros, value)} or the tuple \texttt{('EOB',)}. Your \texttt{huffman\_compress} function takes a flat list of all RLE symbols from an image and returns a dictionary of codes and a final encoded bitstring. Please see the starter code for detailed specifications.
+\end{problem}
+\begin{solution}
+    Please answer here.
+\end{solution}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problem 4
+
+
+\begin{problem}
+  Given a sequence of integers $a_1,\ldots,a_n$ we want to find the
+  number of times the most frequent pairwise difference appears.
+  Let $\delta_{i, j} = a_i - a_j$ for $i \ne j$ in the list. Suppose you know one of the \href{https://en.wikipedia.org/wiki/Mode_(statistics)}{modes} (i.e. the most frequent value) of the list of all the $\delta_{i, j}$'s is $\delta_{mode}$. We want to count for how many values $\delta_{i, j} = \delta_{mode}$. 
+\begin{subproblem}
+    (\textit{7 points})
+    Design and implement a $\Theta(n ^ 2)$ algorithm that given a sequence of integers $a_1,\ldots,a_n$ and $\delta_{mode}$ as described above, outputs the frequency of $\delta_{mode}$. Include your implementation in \texttt{problem\_4/p4\_a.py}.
+  \end{subproblem}
+    \begin{solution}
+        Please answer here.
+    \end{solution}
+
+  \begin{subproblem}
+    (\textit{4 points})
+    Design and implement a $\Theta(n \log n)$ algorithm that given a sequence of integers $a_1,\ldots,a_n$ and $\delta_{mode}$ as described above, outputs the frequency of $\delta_{mode}$. Include your implementation in \texttt{problem\_4/p4\_b.py}.
+  \end{subproblem}
+    \begin{solution}
+        Please answer here.
+    \end{solution}
+
+  \begin{subproblem}
+    (\textit{4 points})
+    Design and implement a $\Theta(n)$ algorithm that given a sequence of integers $a_1,\ldots,a_n$ and $\delta_{mode}$ as described above, outputs the frequency of $\delta_{mode}$. Include your implementation in \texttt{problem\_4/p4\_c.py}.
+  \end{subproblem}
+    \begin{solution}
+        Please answer here.
+    \end{solution}
+
+  \begin{subproblem}
+    (\textit{5 points})
+    Provide a comparison of the empirical performance analysis of your algorithms from parts (b) and (c). There is a clear performance advantage of using the algorithm from part (c) over the one from part (b). Is there any trade-off? \textit{\textbf{Hint:} Consider the \href{https://en.wikipedia.org/wiki/Space_complexity}{space complexity} of the algorithms, which is the space an algorithm takes to execute.}
+  \end{subproblem}
+    \begin{solution}
+        Please answer here.
+    \end{solution}
+
+  
+  Note that the mode can be negative. If $\delta_{i, j}$ is a mode of the list,
+  then $-\delta_{i, j} = \delta_{j, i}$ will be a mode too. The input to the
+  function will be one of these modes, which can be positive, negative, or 0.
+\end{problem}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problem 5
+
+\begin{problem}
+  Eman baked some cookies for her friends, and asked Avital to help
+  by distributing them among their friends. 
+  Their group of friends is very close-knit, so they all live in a building 
+  together, called ``The Building''.
+  
+  The architect of ``The Building'' designed 
+  the property such that every floor is a very long corridor. To one side of 
+  the corridor are all the apartments in that floor, with the distance between 
+  every pair of consecutive doors being always the same.   
+  The architect is not very fond of elevators, so to the other side of the 
+  corridor, there is a pair of staircases in front of every apartment door,
+  leading to all the floors in the building. 
+  Apartments are labeled first by floor and then by index in the floor, hence 
+  $apt_{(12,21)}$ is the 21st apartment in the 12 floor.
+
+  Avital is not a big fan of walking, so as she delivers the cookies,
+  she may give some extra cookies to her friends, and ask them to
+  distribute them to some other friends. All the friends may subsequently
+  divide their cookies and ask other friends to help with the deliveries too. 
+  
+  Avital wants to minimize everyone's total number of steps. Assume that the distance between an apartment $apt_{(f,i)}$ and $apt_{(f,i+1)}$ is the same as that between $apt_{(f,i)}$ and $apt_{(f+1,i)}$. 
+  
+  Assume the friends are distributed across $n$ apartments,
+  where each apartment, including Eman's, has $p > n$ friends
+  currently hanging out. 
+  % Additional constraints include:
+  % \begin{itemize}
+  %     \item The number of helpers that can be recruited, excluding Avital, is limited to $k$.
+  %     \item Each helper can deliver cookies to only one apartment, but this restriction does not apply to Avital.
+  % \end{itemize}
+  % Finally, assume that Avital starts at apartment $apt_{(1,1)}$,
+  Finally, assume that Avital starts at apartment $apt_{(\floor{\frac{n+1}{2}},\floor{\frac{n+1}{2}})}$,
+  where Eman lives, and she can recruit some of the friends currently there.
+
+  (\textit{20 points}) Design and implement an algorithm that given a list of apartments where the friends live, returns pairs $(a, b)$ where friends from apartment $a$ take the cookies to the friends from apartment $b$, that minimize the total number of steps. Your algorithm should run in $O(n^2 \log n)$.
+  Describe your algorithm and analyze its runtime in the write-up and include your implementation in \texttt{problem\_5/p5.py}.
+
+  %and the maximum number of helpers
+  
+  \io The input will be a Python list containing the apartments of Eman's friends, where $apt_{(f,i)}$ will be represented as the tuple $(f, i)$. The output should be a list of apartment tuples.
+  For example, if the input was $[(1,2), (2,1)]$, the output would be $[((1,1), (1,2)), ((1,1), (2,1))]$.
+
+  Hint: The distance between apartments is the $L_1$ distance or Manhattan distance:
+  $$\text{dist}(\text{apt}_{x_1,y_1}, \text{apt}_{x_2,y_2}) = |x_1 - x_2| + |y_1 - y_2|.$$
+
+  \begin{solution}
+Please answer here.
+\end{solution}
+  
+\end{problem}
+
+\begin{challenge}
+    \textbf{A closer look at Integer Multiplication}
+    
+    Given two $n$-bit integers (represented as a list of binary values, i.e. base 2), $x, y\in\{0,1\}^n$,
+    implement three approaches to computing their product $x \cdot y$
+    and perform an empirical performance analysis of the algorithms.
+
+    (\textit{2 points}) The first approach will be a reference implementation. Compute the product by converting from their binary representation to an int, then multiplying. Please provide a brief description of your implementation here.
+    
+    \begin{solution}
+        Please answer here.
+    \end{solution}
+
+    (\textit{5 points}) For the second approach,
+    we would like you to implement the Karatsuba algorithm,
+    described in section 5.5 of the Algorithm Design textbook.
+    Please provide a brief description of your implementation here.
+
+    \begin{solution}
+        Please answer here.
+    \end{solution}
+
+    (\textit{10 points}) The final algorithm to implement is the Fast Fourier Transform (FFT), described in
+    section 5.6 of the Algorithm Design textbook.
+    Please provide a brief description of your implementation here.
+
+    \begin{solution}
+        Please answer here.
+    \end{solution}
+
+
+    (\textit{3 points}) Finally, provide an empirical performance analysis of the algorithms.
+    Ensure that the analysis samples enough problem sizes (i.e. integer sizes $n$)
+    such that the runtimes can be clearly differentiated.
+    
+    \begin{solution}
+        Please answer here.
+    \end{solution}
+
+\end{challenge}
+
+\end{document}
