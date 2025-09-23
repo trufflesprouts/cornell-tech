@@ -26,16 +26,17 @@ def run_length_encode(data_block):
         list[tuple]: A list of RLE symbols. Each symbol is either ('EOB',)
                      or (num_zeros, value).
     """
-    # <<< YOUR IMPLEMENTATION HERE >>>
-    #
-    # Example: [52, -7, 0, 0, 3, 0, -2, 0, ..., 0] -> [(0, 52), (0, -7), (2, 3), (1, -2), ('EOB',)]
-    #
-    # Hint: Iterate through the block. If you see a zero, increment a counter.
-    # If you see a non-zero value, create a symbol with the current zero count
-    # and the value, then reset the counter. Don't forget the EOB symbol
-    # when you reach the end of the non-zero coefficients.
-    
-    return []
+    symbols = []
+    num_zeros = 0
+    for value in data_block:
+        if value == 0:
+            num_zeros += 1
+        else:
+            symbols.append((num_zeros, value))
+            num_zeros = 0
+
+    symbols.append(('EOB',))
+    return symbols
 
 
 def huffman_compress(all_rle_symbols):
@@ -53,17 +54,29 @@ def huffman_compress(all_rle_symbols):
     if not all_rle_symbols:
         return {}, ""
 
-    # <<< YOUR IMPLEMENTATION HERE >>>
-    #
-    # 1. Calculate frequency of each RLE symbol. `collections.Counter` is useful.
-    # 2. Build the Huffman tree using a priority queue. `heapq` is recommended.
-    #    - Create a leaf Node for each symbol and add it to the heap.
-    #    - While the heap has more than one node, pop the two lowest frequency nodes,
-    #      merge them into a new internal node, and push it back onto the heap.
-    # 3. Traverse the tree to generate Huffman codes. A recursive helper function is a good approach.
-    # 4. Encode the `all_rle_symbols` list into a single bitstring using your generated codes.
-    
-    huffman_codes = {}
-    encoded_data = ""
-    
-    return huffman_codes, encoded_data
+    frequencies = collections.Counter(all_rle_symbols)
+
+    heap = [Node(symbol, freq) for symbol, freq in frequencies.items()]
+    heapq.heapify(heap)
+
+    # build huffman tree
+    while len(heap) > 1:
+        n1 = heapq.heappop(heap)
+        n2 = heapq.heappop(heap)
+        merged = Node(None, n1.freq + n2.freq, n1, n2)
+        heapq.heappush(heap, merged)
+
+    root = heap[0]
+
+    codes = assign_codes(root)
+    stream = "".join(codes[symbol] for symbol in all_rle_symbols)
+    return codes, stream
+
+def assign_codes(node, prefix=""):
+    codes = {}
+    if node.symbol is not None:
+        codes[node.symbol] = prefix if prefix else "0"
+        return codes
+    codes.update(assign_codes(node.left, prefix + "0"))
+    codes.update(assign_codes(node.right, prefix + "1"))
+    return codes
