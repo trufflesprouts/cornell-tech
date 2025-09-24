@@ -40,7 +40,7 @@ def stable_matching_1b(file) -> dict:
                     h2 = pairs[doc_preference]
                     h1_idx = doctors_pref[doc_preference].index(h)
                     h2_idx = doctors_pref[doc_preference].index(h2)
-                    if h1_idx > h2_idx:
+                    if h1_idx < h2_idx:
                         pairs[doc_preference] = h
                         matched_hospitals.add(h)
                         matched_hospitals.remove(h2)
