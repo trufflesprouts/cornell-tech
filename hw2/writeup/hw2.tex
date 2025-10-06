@@ -1,0 +1,272 @@
+\documentclass{hw}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+\newcommand{\hwnum}{2}
+\newcommand{\duedate}{October 16, 11:59pm ET}
+\renewcommand{\title}{Dynamic Programming and Randomized Algorithms}
+
+\newcommand{\io}{\textbf{Code input and output format.} }
+\newcommand{\submission}{\textbf{Submission.}}
+
+\setboolean{withsolutions}{false}
+
+\newtheorem{claim}{Claim}
+
+%\usepackage{tikz}
+%\usetikzlibrary{positioning}
+%\tikzstyle{skipnode} = [rectangle, draw, fill=white, minimum width=1cm, minimum height=0.5cm]
+
+\begin{document}
+\newpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problem 1: Non-adjacent sum
+
+\begin{problem}
+In this problem, you will compute the maximum sum of non-adjacent elements,
+maxsum($x$) $= \max_S \sum_{s \in S} x_s$ where no two elements in $S$ are adjacent, in two settings:
+a list and a tree.
+The definition of adjacent will be specific to each setting.
+Additionally, for each setting you must first write out the subproblem
+and then implement the full dynamic programming algorithm.
+
+\begin{subproblem}
+Given a sequence of integers $ x = x_1,x_2,\ldots,x_n $,
+your goal is to compute the largest sum of non-adjacent elements of $x$,
+maxsum\_list($x$).
+Adjacent elements of the sequences are next to each other: $x_i$ and $x_{i+1}$.
+
+(\textit{2 points}) Identify the dynamic programming subproblem and write its solution here.
+
+(\textit{8 points}) Implement maxsum\_list in \texttt{problem\_1/p1\_a.py}.
+\end{subproblem}
+
+\io The input is a python list, and the output should be an integer.
+Example: $\text{maxsum\_list}([2,1,3,4]) = 6$.
+
+\begin{subproblem}
+Given a tree with nodes that contain integers,
+your goal is to compute the largest sum of non-adjacent elements.
+Trees are represented as a set of vertices
+$v_i \in V$ and edges $(v_i, v_j) \in E \subseteq V\times V$.
+There are no loops and every vertex has at most a single parent.
+Adjacent elements of the tree are those that have an edge between nodes, i.e. $(v_i,v_j)\in E$.
+For convenience, define the children of a node to be $c(v_i) = \{v_j | (v_i,v_j)\in E\}$.
+
+(\textit{2 points}) Identify the dynamic programming subproblem and write its solution here.
+
+(\textit{8 points}) Implement the algorithm in \texttt{problem\_1/p1\_b.py}.
+\end{subproblem}
+
+\io The input is a tree represented as an adjacency list.
+The adjacency list is a pair of dictionaries:
+the first dictionary maps node names to node values,
+and the second dictionary maps each node name to a list of
+child node names.
+The output should be an integer.
+Example: $\text{maxsum\_tree}(\text{values} = \{2: 2, 1:1, 3:3, 4:4\}, \text{adjacency}=\{2: [1], 1: [3], 3: [4]\}) = 6$.
+
+
+\end{problem}
+
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problem 2
+
+\newcommand{\rank}{\textnormal{rank}}
+\newcommand{\Colon}{:}
+\newcommand{\dotdot}{..}
+\newcommand{\numinv}{\textrm{NI}}
+\newcommand{\numlargeinv}{\textrm{NLI}}
+
+\begin{problem}
+  Given $n$ points in a 2D plane, your goal is to find the two points that are closest together
+  according to the Euclidean distance $d(x,y) = \sum_i (x_i - y_i)^2$.
+
+  \begin{subproblem}
+    (\textit{5 points}) Implement a $O(n^2)$ brute-force method in \texttt{problem\_2/p2\_a.py}.
+  \end{subproblem}
+
+  \begin{subproblem}
+    (\textit{5 points}) Implement the $O(n \log n)$ divide-and-conquer approach,
+    described in Section 5.4 of\href{https://theswissbay.ch/pdf/Gentoomen%20Library/Algorithms/Algorithm%20Design%20-%20John%20Kleinberg%20-%20%C3%89va%20Tardos.pdf}{ Kleinberg and Tardos }and the 9/19 lecture in \texttt{problem\_2/p2\_b.py}.
+  \end{subproblem}
+
+  \begin{subproblem}
+    (\textit{10 points}) Implement the $O(n)$ randomized approach,
+    described in Section 13.7 of \href{https://theswissbay.ch/pdf/Gentoomen%20Library/Algorithms/Algorithm%20Design%20-%20John%20Kleinberg%20-%20%C3%89va%20Tardos.pdf}{ Kleinberg and Tardos } in \texttt{problem\_2/p2\_c.py}.
+  \end{subproblem}
+
+  \begin{subproblem}
+      (\textit{5 points})
+      Perform an empirical analysis of the three approaches,
+      plotting their runtime performance for a series of problem sizes.
+  \end{subproblem}
+
+  \io The input is a list of tuples of floats corresponding to points in the plane.
+  The output is a list of the two closest points.
+  Example: $\text{closest\_points}([(0,0), (1,1), (5,5)]) = [(0,0), (1,1)]$
+\end{problem}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problem 3
+
+
+\begin{problem}
+\href{https://en.wikipedia.org/wiki/Skip_list}{Skip lists}
+are randomized datastructures that allow efficient (in expectation)
+insertion, search, and deletion operations in a sorted list.
+We assume that list elements are always ints.
+
+You will implement skip lists in this problem, as well as a linked list baseline.
+We supply separate Node classes in each file \texttt{problem\_3/*.py}, which will be the backbone of each implementation.
+Both implementions will have the following interface:
+\begin{itemize}
+\item insert(list, x: int) $\rightarrow$ None: Add a new int to our list.
+\item search(list, x: int) $\rightarrow$ Node: Return the node in our list that has the value $x$.
+\item delete(list, x: int) $\rightarrow$ None: the node in our list that has have value $x$.
+\end{itemize}
+For simplicity, we assume that no repeated elements will be inserted into the list.
+
+Please read the following
+\href{https://ocw.mit.edu/courses/6-046j-introduction-to-algorithms-sma-5503-fall-2005/resources/l12_skiplists/}{resource}
+on skip lists for more helpful information.
+
+\begin{subproblem}
+(\textit{5 points}) As a baseline, implement a linked list class.
+Give the runtime complexity of search, insertion, and deletion.
+The linked list must always be in sorted order and all elements will be ints.
+Include your implementation in \texttt{problem\_3/p3\_a.py}.
+\end{subproblem}
+\begin{subproblem}
+(\textit{5 points}) Implement insertion for skip lists, which should take $O(\log n)$ expected time.
+All list elements will be ints.
+Perform an empirical analysis of insertion in skip lists versus the linked list baseline.
+Include your implementation in \texttt{problem\_3/p3\_b.py}.
+\end{subproblem}
+\begin{subproblem}
+(\textit{5 points}) Implement search for skip lists, which should take $O(\log n)$ expected time.
+Give the expected and worst-case runtime complexity.
+All list elements will be ints.
+Perform an empirical analysis of search in skip lists versus the linked list baseline.
+Include your implementation in \texttt{problem\_3/p3\_b.py}.
+\end{subproblem}
+\begin{subproblem}
+(\textit{5 points}) Implement deletion for skip lists, which should take $O(\log n)$ expected time.
+All list elements will be ints.
+Perform an empirical analysis of deletion in skip lists versus the linked list baseline.
+Include your implementation in \texttt{problem\_3/p3\_b.py}.
+\end{subproblem}
+
+%\io Example
+
+Note: A deterministic alternative to skip lists are binary trees.
+However, in order for binary trees to remain performant,
+they must be balanced. Balanced binary tree implementations such as
+AVL and Red-Black trees have relatively complicated implementations compared to skip lists.
+
+\end{problem}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Challenge
+ 
+\begin{challenge}
+    \textbf{\href{https://en.wikipedia.org/wiki/Partition_problem}{The number partition problem (NPP)}}
+
+    Given a set of $n$ integers $S$, where all elements are unique,
+    our goal is to find a partitioning of this set into $A\subset S$ and $B\subset S$
+    in order to minimize their difference $|\sum_{a\in A}a - \sum_{b\in B}b|$.
+    Please include all of your implementations in \texttt{challenge\_1/partition.py}.
+
+    \begin{enumerate}[label={(\alph*)}]
+    \item (\textit{5 points}) Implement a brute-force approach that operates in exponential time.
+
+    \item (\textit{5 points}) Describe and implement a greedy approximation algorithm for this problem.
+
+    \item (\textit{5 points}) Describe and implement an exact dynamic programming approach.
+
+    \item (\textit{5 points}) Perform an empirical analysis of the approaches,
+    reporting their runtime for different problem sizes as well as their accuracy
+    for problem sizes where exact solutions are feasible.
+    \end{enumerate}
+
+    \io The input $x=x_1 \ldots x_n$ is a list of $n$ integers.
+    The output should be a vector of 0's and 1's
+    indicating the partitioning of the input into $A$ and $B$.
+\end{challenge}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Challenge 2: Sequence alignment
+
+\begin{challenge}
+\textbf{The sequence alignment problem}
+
+In this challenge problem
+we will solve the {\em sequence alignment problem}.
+The approach we will implement is discussed in detail
+in Kleinberg and Tardos Sections 6.6 and 6.7.
+
+In the sequence alignment problem, we are given two sequences $x=x_1\ldots x_n$ and
+$y=y_1\ldots y_m$, as well as a cost function $c(x_i,y_j)$ that measures element-wise similarity.
+We denote $\delta$ as the cost for not aligning an element to anything,
+or aligning an element to a gap.
+The goal is to match up or align elements of $x$ to elements of $y$ that are similar.
+This is formalized as a minimum cost alignment between $x$ and $y$,
+where a lower total cost implies that $x$ and $y$ are similar.
+
+Formally, an alignment $A$ is a set of ordered pairs that denote which elements $x_i \in x$ are matched with elements $y_j \in y$.
+Alignments have two properties:
+each element in $x$ and $y$ is aligned to at most one other element in the other sequence
+and there are no crossing pairs: if $(i, j), (i', j') \in A$ and $i < i'$, then $j < j'$.
+The cost of an alignment is the cost of each of the aligned elements. 
+
+For example,
+\begin{verbatim}
+    stop-
+    -tops
+\end{verbatim}
+corresponds to the alignment $[(2,1), (3,2), (4,3)]$ and has cost
+$$\delta + c(t,t) + c(o,o) + c(p,p) + \delta.$$
+Elements aligned to gaps - are not included in the final list-of-tuples representation of the alignment.
+
+\begin{enumerate}[label={(\alph*)}]
+\item(\textit{5 points})
+Implement the $O(nm)$ dynamic programming algorithm described on page 282 of Kleinberg and Tardos in \texttt{challenge\_2/seq\_alignment\_a.py}.
+This algorithm is known as the \href{https://en.wikipedia.org/wiki/Needleman-Wunsch\_algorithm}{Needleman-Wunsch algorithm}.
+
+
+\item(\textit{15 points})
+The above approach utilized $O(nm)$ space.
+Utilize a divide-and-conquer approach to reduce the space to $O(n+m)$
+while keeping the running time complexity of $O(nm)$,
+following section 6.7 of Kleinberg and Tardos.
+This algorithm is known as \href{https://en.wikipedia.org/wiki/Hirschberg's\_algorithm}{Hirschberg's algorithm}.
+Include your implementation in \texttt{challenge\_2/seq\_alignment\_b.py}.
+\end{enumerate}
+
+\io The input is two strings, the cost function $c$, and gap penalty $\delta$
+align($x$, $y$, $c$, $\delta$).
+For example, $x = $ "abcd", $y=$ "bcde",
+\begin{verbatim}
+def c(a, b):
+    return 0 if a == b else 1
+\end{verbatim}
+and $\delta = 1$.
+The output should be the list of tuples corresponding to the alignment and the cost of the alignment:
+$[(2,1), (3,2), (4,3)]$ and cost 2.
+
+
+While sequence alignment of two sequences is relatively solved,
+the problem of aligning multiple sequences is not.
+This is referred to as multiple sequence alignment (MSA),
+and is under \href{https://academic.oup.com/bioinformatics/article/39/1/btac724/6820925}{active research}.
+
+\end{challenge}
+
+\end{document}
