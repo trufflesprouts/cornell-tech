@@ -1,0 +1,230 @@
+\documentclass{hw}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{amsmath}% mathtools includes this so this is optional
+\usepackage{mathtools}
+
+\def\m{{\textit{m}}}
+\def\i{{\textit{i}}}
+\def\j{{\textit{j}}}
+\def\k{{\textit{k}}}
+
+\newcommand{\hwnum}{0}
+\newcommand{\duedate}{September 4, 11:59pm EDT}
+\renewcommand{\title}{Python Basics}
+
+\newcommand{\io}{\textbf{Code input and output format.} }
+\newcommand{\submission}{\textbf{Submission.}}
+\newcommand{\carolina}[1]{\textcolor{purple}{carolina: #1}}
+\newcommand{\subham}[1]{\textcolor{orange}{Subham: #1}}
+
+\setboolean{withsolutions}{false}
+
+\newtheorem{claim}{Claim}
+
+%\usepackage{tikz}
+%\usetikzlibrary{positioning}
+%\tikzstyle{skipnode} = [rectangle, draw, fill=white, minimum width=1cm, minimum height=0.5cm]
+\lstset{
+  basicstyle=\ttfamily\scriptsize,    % Use a scriptsize typewriter font
+  breaklines=true,               % Break long lines
+  frame=single,                  % Frame the code block
+  numbers=left,                  % Add line numbers on the left
+  numberstyle=\tiny\color{gray}, % Make line numbers small and gray
+  keywordstyle=\color{blue},     % Color keywords blue
+  commentstyle=\color{green},    % Color comments green
+  stringstyle=\color{red},       % Color strings red
+}
+\begin{document}
+\newpage
+
+% \section*{Welcome to CS 5112, Algorithms and Data Structures for Applications!}
+
+In this mini-assignment, you are expected to gain a basic understanding of basic pythonic concepts, as well as basic recursion and dynamic programming. This assignment is generated largely with chatGPT, to cover the basics of Python.
+
+Students are expected to solve these problems by browsing the internet to find relevant documentation to enable them to solve the problems. \textbf{We strongly advise against} using chatGPT to solve these basic problems.
+
+\begin{problem}
+\textbf{p1\_a:}
+
+In this problem set, we warm-up on:
+
+\begin{subproblem}
+If-Elif-Else statements
+\begin{enumerate}
+    \item categorize\_number
+\end{enumerate}
+\end{subproblem}
+
+\begin{subproblem}
+Enumerating lists, reversing lists.
+\begin{enumerate}
+    \item find\_index
+    \item reverse\_list
+\end{enumerate}
+\end{subproblem}
+
+\begin{subproblem}
+For loops with break and continue statements
+\begin{enumerate}
+    \item process\_numbers
+\end{enumerate}
+\end{subproblem}
+
+\begin{subproblem}
+Building a basic dictionary
+\begin{enumerate}
+    \item string\_lengths
+\end{enumerate}
+\end{subproblem}
+
+\begin{subproblem}
+Conditional list comprehensions
+\begin{enumerate}
+    \item even\_values\_keys
+    \item square\_evens
+    \item long\_strings
+    \item convert\_to\_celsius
+\end{enumerate}
+\end{subproblem}
+
+\end{problem}
+
+\begin{problem}
+\textbf{p1\_b:}
+
+In this problem set, we warm-up on lists. Specifically:
+
+\begin{subproblem}
+Appending
+\begin{enumerate}
+    \item add\_element
+\end{enumerate}
+\end{subproblem}
+
+\begin{subproblem}
+Inserting by index
+\begin{enumerate}
+    \item insert\_element\_at
+\end{enumerate}
+\end{subproblem}
+
+\begin{subproblem}
+Removing by index
+\begin{enumerate}
+    \item remove\_element
+\end{enumerate}
+\end{subproblem}
+
+\begin{subproblem}
+Popping from list
+\begin{enumerate}
+    \item pop\_element\_at
+\end{enumerate}
+\end{subproblem}
+
+\end{problem}
+
+\begin{problem}
+\textbf{p1\_c:}
+
+In this problem set, we warm-up on dictionaries. Specifically:
+
+\begin{subproblem}
+Keys, values, items, get
+\begin{enumerate}
+    \item get\_keys
+    \item get\_values
+    \item get\_items
+    \item get\_value
+\end{enumerate}
+\end{subproblem}
+
+\end{problem}
+
+\begin{problem}
+\textbf{p1\_d:}
+
+In this problem set, we warm-up on:
+
+\begin{subproblem}
+Basic list comprehension
+\begin{enumerate}
+    \item square\_all
+    \item filter\_even
+\end{enumerate}
+\end{subproblem}
+
+\begin{subproblem}
+reduce and lambda functions
+\begin{enumerate}
+    \item product\_of\_all
+\end{enumerate}
+\end{subproblem}
+
+\end{problem}
+
+\begin{problem}
+\textbf{p1\_e:}
+
+In this problem set, we warm-up on:
+
+\begin{subproblem}
+Applying reduce-lambda for calculating factorials. Provide a basic write-up describing your solution for this problem.
+\begin{enumerate}
+    \item factorial\_reduce
+\end{enumerate}
+\end{subproblem}
+
+\begin{subproblem}
+Applying recursion for calculating factorial. Provide a basic write-up describing your solution for this problem.
+\begin{enumerate}
+    \item factorial\_rec
+\end{enumerate}
+\end{subproblem}
+
+\end{problem}
+
+
+\begin{challenge}
+\textbf{p1\_advanced:}
+
+In this problem set, we give four advanced problems which warm-up or provide a gentle introduction to:
+
+\begin{subproblem}
+Appending, popping, removing and inserting to lists.
+\begin{enumerate}
+    \item manage\_queue
+\end{enumerate}
+\end{subproblem}
+
+\begin{subproblem}
+Applying dynamic programming for calculating factorial
+\begin{enumerate}
+    \item factorial\_dp
+\end{enumerate}
+\end{subproblem}
+
+\begin{subproblem}
+Simple linear search problem
+\begin{enumerate}
+    \item linear\_search
+\end{enumerate}
+\end{subproblem}
+
+\begin{subproblem}
+Binary search problem. Provide a basic write-up describing your solution for this problem, as well as provide a graph comparing the performance of linear\_search and binary\_search for list of the following sizes: [10, 100, 1000, 10000, 100000, 1000000].
+\begin{enumerate}
+    \item binary\_search
+\end{enumerate}
+\end{subproblem}
+
+\end{challenge}
+
+\end{document}
