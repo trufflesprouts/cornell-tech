@@ -37,7 +37,7 @@ def time_once(fn, pts):
 
 def main():
     random.seed(42)
-    sizes = [200, 400, 1000, 2000, 4000]
+    sizes = [200, 400, 1000, 20000]
     trials = 5
     algos = {
         "Brute Force": cp_a,
